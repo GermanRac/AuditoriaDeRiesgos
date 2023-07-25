@@ -17,8 +17,28 @@ const Vulnerabilidades = () => {
 
   const [fechaInicio, setFechaInicio] = useState([]);
   const [fechaFin, setFechaFin] = useState([]);
+  const [busqueda, setBusqueda] = useState([]);
+  const tab = <>&nbsp;&nbsp;&nbsp;&nbsp;</>;
+  //
+  const buscarAmbito = async () => {
+    const snapshot = await getDocs(collection(db, 'Vulnerabilidades'));
+    let vulnerabilidadesL = [];
+    snapshot.docs.forEach((doc) => {
+        var tmpData = doc.data();
+        var key = doc.id;
+        const ambitosDate = tmpData.ambitos.toDate();
+  
+        if (ambitosDate >= new Date(fechaInicio) && ambitosDate <= new Date(fechaFin)) {
+            vulnerabilidadesL.push({
+                key, 
+                ...tmpData
+            });
+        }
+    });
+    setVulnerabilidadesList(vulnerabilidadesL);
+}
 
-   
+  //
   const cargarVulnerabilidades = async () => {
     const querySnapshot = await getDocs(collection(db, 'Vulnerabilidades'));
     var vulnerabilidadesL = [];
@@ -61,8 +81,9 @@ const Vulnerabilidades = () => {
             onChange={event => setFechaInicio(event.target.value)}
             ></input>
         </label>
+{tab}
 
-        <label>Fecha Fin<br />
+<label>Fecha Fin<br />
           <input
             className='w-96 m-200 border-solid border-sky-400 border-2'
             value={fechaFin}
@@ -70,6 +91,31 @@ const Vulnerabilidades = () => {
             onChange={event => setFechaFin(event.target.value)}
             ></input>
         </label>
+        {tab}
+        <label>Ambito a Buscar<br />
+          <input
+            className='w-96 m-200 border-solid border-sky-400 border-2'
+            value={busqueda}
+            type="input"
+            onChange={event => setBusqueda(event.target.value)}
+            ></input>
+        </label>
+
+        <button type='button'
+                className='text-2x1 p-2
+          hover:drop-shadow-xl
+          hover:bg-light-gray
+          text-white'
+                style={{
+                    background: 'red',
+                    borderRadius: ''
+                }}
+                
+                onClick={() => { fechaInicio && fechaFin ? buscarAmbito() : console.log("Date range not set correctly") }}>
+                Buscar
+            </button>
+
+
 
     </div>
 
