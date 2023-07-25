@@ -25,25 +25,39 @@ const [count, setCount] = useState(0);
   const buscarAmbito = async () => {
 
      // Parse the selected date strings into Date objects for comparison
-  let fechaInicioDate = new Date(fechaInicio);
-  let fechaFinDate = new Date(fechaFin);
+  // let fechaInicioDate = new Date(fechaInicio);
+  // let fechaFinDate = new Date(fechaFin);
 
     const vulnerabilidadesSnap = await getDocs(collection(db, 'Vulnerabilidades'));
+    //consola para ver ejecucion
+    console.log('Fetched Documents: ', vulnerabilidadesSnap.docs.length);
+    
     let count = 0;
     vulnerabilidadesSnap.docs.forEach((doc) => {
     // Get the doc data
     var tmpData = doc.data();
-    
-    // Parse the stored date string into a Date object
-    var dateParts = tmpData.ambitos.split("/");
-    var ambitosDate = new Date(+dateParts[0], dateParts[1] - 1, +dateParts[2]);
-
-    // Continue with comparison as before
-    if (ambitosDate >= fechaInicioDate && ambitosDate <= fechaFinDate && tmpData.ambitos === busqueda) {
-      count++
-    } 
-  });
+    var key = doc.id;
   
+
+      // Parse the 'ambitos' string to a Date object
+      // const ambitosDate = new Date(tmpData.ambitos);
+
+      const ambitosString = tmpData.ambitos;
+
+    // Compare the 'ambitos' value with 'busqueda' & check if ambitosDate is within the selectedDate range
+  //   if (ambitosDate >= new Date(fechaInicio) && ambitosDate <= new Date(fechaFin) && tmpData.ambitos === busqueda) {
+  //     count++
+   
+
+  //   } 
+  // });
+
+
+  if (ambitosString === busqueda) {
+    count++
+} 
+});
+
     setCount(count);       // Set the count state 
 }
 
@@ -105,7 +119,7 @@ const [count, setCount] = useState(0);
           <input
             className='w-96 m-150 border-solid border-sky-300 border-2'
             value={busqueda}
-            type="input"
+            type="text"
             onChange={event => setBusqueda(event.target.value)}
             ></input>
         </label>

@@ -72,6 +72,9 @@ export default function VulnerabilidadTabla(props) {
             />
             {console.log(selectionModel)}
         </div>
+
+
+
     );
 
 }
