@@ -17,25 +17,24 @@ const Vulnerabilidades = () => {
 
   const [fechaInicio, setFechaInicio] = useState([]);
   const [fechaFin, setFechaFin] = useState([]);
-  const [busqueda, setBusqueda] = useState([]);
+  const [busqueda, setBusqueda] = useState("");
+const [count, setCount] = useState(0);
   const tab = <>&nbsp;&nbsp;&nbsp;&nbsp;</>;
   //
   const buscarAmbito = async () => {
-    const snapshot = await getDocs(collection(db, 'Vulnerabilidades'));
-    let vulnerabilidadesL = [];
-    snapshot.docs.forEach((doc) => {
+    const vulnerabilidadesSnap = await getDocs(collection(db, 'Vulnerabilidades'));
+    let count = 0;
+    vulnerabilidadesSnap.docs.forEach((doc) => {
         var tmpData = doc.data();
         var key = doc.id;
         const ambitosDate = tmpData.ambitos.toDate();
-  
-        if (ambitosDate >= new Date(fechaInicio) && ambitosDate <= new Date(fechaFin)) {
-            vulnerabilidadesL.push({
-                key, 
-                ...tmpData
-            });
-        }
+
+        // Compare the 'ambitos' value with 'busqueda' & check if ambitosDate is within the selectedDate range
+        if (ambitosDate >= new Date(fechaInicio) && ambitosDate <= new Date(fechaFin) && tmpData.ambitos === busqueda) {
+            count++
+        } 
     });
-    setVulnerabilidadesList(vulnerabilidadesL);
+    setCount(count);       // Set the count state 
 }
 
   //
@@ -114,6 +113,15 @@ const Vulnerabilidades = () => {
                 onClick={() => { fechaInicio && fechaFin ? buscarAmbito() : console.log("Date range not set correctly") }}>
                 Buscar
             </button>
+            {tab}
+            <label>Count: 
+      <input
+        className='w-96 m-200 border-solid border-sky-400 border-2'
+        value={count}
+        type="input"
+        disabled
+        ></input>
+    </label>
 
 
 
