@@ -6,7 +6,8 @@ import { db } from '../config/client';
 
 const Vulnerabilidades = () => {
  
-  const vulnerabilidadesGrid = [{field:'codigo', headerName:'Codigo', width:'70'},
+  const vulnerabilidadesGrid = [{field:'fecha', headerName:'Fecha', width:'115'},
+  {field:'codigo', headerName:'Codigo', width:'70'},
   {field:'especificacion', headerName:'Especificacion', width:'100'},
   {field:'ambitos', headerName:'Ambito', width:'100'},
   {field:'calificacion', headerName:'Calificacion', width:'100'},

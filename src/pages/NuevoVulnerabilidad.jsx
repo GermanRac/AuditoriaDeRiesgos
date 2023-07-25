@@ -14,7 +14,7 @@ const NuevoVulnerabilidad = () => {
   const ambitos = ['Procesos y procedimientos', 'Rutinas de gestión y documentación', 'Recursos humanos', 'Instalaciones físicas y prediales.', 'Configuración de los sistemas '];
 
   const severidad = ['Ninguna', 'Baja', 'Media', 'Alta', 'Critica'];
-
+  const [fechaSeleccionada, setFechaSeleccionada] = useState('');
   const [especificacionS, setEspecificacionS] = useState('');
   const [calificacionS, setCalificacionS] = useState(0);
 
@@ -43,6 +43,7 @@ const NuevoVulnerabilidad = () => {
 
     let code = Math.floor(Math.random() * 100);
     const res = await addDoc(collection(db, "Vulnerabilidades"), {
+      "fecha" : fechaSeleccionada,
       "codigo": code,
       "ambitos": ambitoS,
       "amenazas": amenazaS,
@@ -60,6 +61,16 @@ const NuevoVulnerabilidad = () => {
       <Header category="Page" title="Agregar vulnerabilidad" />
 
       <form onSubmit={() => { handleSubmitVulnerabilidad() }}>
+      
+      <label>Fecha 
+          <br /><input
+            className='w-96 m-200 border-solid border-sky-400 border-2'
+            value={fechaSeleccionada}
+            type="date"
+            onChange={event => setFechaSeleccionada(event.target.value)}
+            ></input>
+        </label><br /><br />
+        
         <label>Especificación
           <br /><input
             className='w-96 m-200 border-solid border-sky-400 border-2'
