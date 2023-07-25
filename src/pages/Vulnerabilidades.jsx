@@ -2,7 +2,8 @@ import React, {useState } from 'react';
 import { Header, VulnerabilidadTabla } from '../components';
 import { collection, getDocs } from 'firebase/firestore';
 import { db } from '../config/client';
-
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 
 const Vulnerabilidades = () => {
  
@@ -79,7 +80,7 @@ const [count, setCount] = useState(0);
             type="date"
             onChange={event => setFechaInicio(event.target.value)}
             ></input>
-        </label>
+        </label><br /><br />
 {tab}
 
 <label>Fecha Fin<br />
@@ -89,11 +90,11 @@ const [count, setCount] = useState(0);
             type="date"
             onChange={event => setFechaFin(event.target.value)}
             ></input>
-        </label>
+        </label><br /><br />
         {tab}
         <label>Ambito a Buscar<br />
           <input
-            className='w-96 m-200 border-solid border-sky-400 border-2'
+            className='w-96 m-150 border-solid border-sky-300 border-2'
             value={busqueda}
             type="input"
             onChange={event => setBusqueda(event.target.value)}
@@ -114,7 +115,7 @@ const [count, setCount] = useState(0);
                 Buscar
             </button>
             {tab}
-            <label>Count: 
+            <label>Coincidencias: 
       <input
         className='w-96 m-200 border-solid border-sky-400 border-2'
         value={count}

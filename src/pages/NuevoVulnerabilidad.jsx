@@ -3,7 +3,8 @@ import { useNavigate } from 'react-router-dom';
 //import { GridComponent, ColumnsDirective, ColumnDirective, Page, Selection, Inject, Edit, Toolbar, Sort, Filter, registerEventHandlers } from '@syncfusion/ej2-react-grids';
 //import { activosData } from '../data/dummy';
 import { Header } from '../components';
-
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 import { addDoc, collection } from 'firebase/firestore';
 import { db } from '../config/client'
 
@@ -14,7 +15,7 @@ const NuevoVulnerabilidad = () => {
   const ambitos = ['Procesos y procedimientos', 'Rutinas de gestión y documentación', 'Recursos humanos', 'Instalaciones físicas y prediales.', 'Configuración de los sistemas '];
 
   const severidad = ['Ninguna', 'Baja', 'Media', 'Alta', 'Critica'];
-  const [fechaSeleccionada, setFechaSeleccionada] = useState('');
+  const [fechaSeleccionada, setFechaSeleccionada] = useState(null);
   const [especificacionS, setEspecificacionS] = useState('');
   const [calificacionS, setCalificacionS] = useState(0);
 
@@ -41,9 +42,11 @@ const NuevoVulnerabilidad = () => {
       catNivel = severidad[0]
     }
 
+    let dateInDesiredFormat = fechaSeleccionada.toLocaleDateString('en-CA'); // Output: "yyyy/MM/dd"
+
     let code = Math.floor(Math.random() * 100);
     const res = await addDoc(collection(db, "Vulnerabilidades"), {
-      "fecha" : fechaSeleccionada,
+      "fecha" : dateInDesiredFormat,
       "codigo": code,
       "ambitos": ambitoS,
       "amenazas": amenazaS,
@@ -62,15 +65,27 @@ const NuevoVulnerabilidad = () => {
 
       <form onSubmit={() => { handleSubmitVulnerabilidad() }}>
       
-      <label>Fecha 
+      <label>Fecha
+        <br />
+        <DatePicker
+          className='w-96 m-200 border-solid border-sky-400 border-2'
+          selected={fechaSeleccionada}
+          onChange={date => setFechaSeleccionada(date)}
+          dateFormat="yyyy/MM/dd" // Formato deseado
+        />
+      </label><br /><br />
+      
+    
+      {/* <label>Fecha 
           <br /><input
             className='w-96 m-200 border-solid border-sky-400 border-2'
             value={fechaSeleccionada}
             type="date"
             onChange={event => setFechaSeleccionada(event.target.value)}
+            dateFormat="yyyy/MM/dd" // Formato deseado
             ></input>
         </label><br /><br />
-        
+         */}
         <label>Especificación
           <br /><input
             className='w-96 m-200 border-solid border-sky-400 border-2'
