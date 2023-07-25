@@ -8,12 +8,16 @@ const Vulnerabilidades = () => {
  
   const vulnerabilidadesGrid = [{field:'fecha', headerName:'Fecha', width:'115'},
   {field:'codigo', headerName:'Codigo', width:'70'},
-  {field:'especificacion', headerName:'Especificacion', width:'100'},
-  {field:'ambitos', headerName:'Ambito', width:'100'},
+  {field:'especificacion', headerName:'Especificacion', width:'185'},
+  {field:'ambitos', headerName:'Ambito', width:'165'},
   {field:'calificacion', headerName:'Calificacion', width:'100'},
   {field:'severidad', headerName:'Severidad', width:'100'}]
 
   const [vulnerabilidadesList, setVulnerabilidadesList] = useState([]);
+
+  const [fechaInicio, setFechaInicio] = useState([]);
+  const [fechaFin, setFechaFin] = useState([]);
+
    
   const cargarVulnerabilidades = async () => {
     const querySnapshot = await getDocs(collection(db, 'Vulnerabilidades'));
@@ -46,9 +50,29 @@ const Vulnerabilidades = () => {
                 Actualizar
             </button>
             <VulnerabilidadTabla data={vulnerabilidadesList} columns = {vulnerabilidadesGrid} Tabla='Vulnerabilidades' crear='NuevoVulnerabilidad'/>
-      
+           
+            <br></br>
+
+            <label>Fecha Inicio 
+          <br /><input
+            className='w-96 m-200 border-solid border-sky-400 border-2'
+            value={fechaInicio}
+            type="date"
+            onChange={event => setFechaInicio(event.target.value)}
+            ></input>
+        </label>
+
+        <label>Fecha Fin<br />
+          <input
+            className='w-96 m-200 border-solid border-sky-400 border-2'
+            value={fechaFin}
+            type="date"
+            onChange={event => setFechaFin(event.target.value)}
+            ></input>
+        </label>
 
     </div>
+
   );
 };
 
